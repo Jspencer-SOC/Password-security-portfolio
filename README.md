@@ -46,10 +46,10 @@ After fixing the typo, ran the script successfully for the first time using the 
 
 | Algorithm | Avg time/hash | Hashes/sec |
 |-----------|---------------|------------|
-| MD5       | ~0.010 ms   | ~104,000   |
-| bcrypt    | ~0.413 ms   | ~2-4       |
-| scrypt    | ~0.054 ms   | ~18.4      |
-| argon2id  | ~0.111 ms   | ~8.9       |
+| MD5       | ~0.010 ms   | ~104,000/sec |
+| bcrypt    | ~0.413 s   | ~2.4/sec   |
+| scrypt    | ~0.054 s   | ~18.4/sec  |
+| argon2id  | ~0.111 s   | ~9.0/sec   |
 
 
 "Avg time/hash" → bigger number = slower (takes longer per hash)
