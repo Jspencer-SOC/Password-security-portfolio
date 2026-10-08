@@ -74,7 +74,7 @@ Ran the benchmark again with a different test password ("Samsmith") to confirm t
 ![Sample pass](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/fd496dbd7d7947a769c9099c84dd14db9440b2a0/Screenshot/Sample%20pass%20testing.png)
 
 ## Another Faliure
-While trying to retune scrypt's cost parameter to match OWASP recommendations, I set n too high and triggered a ValueError: [digital envelope routines] memory limit exceeded. This showed firsthand that cost parameters can't just be increased arbitrarily; they're constrained by available system memory.
+While trying to retune scrypt's cost parameter to match OWASP recommendations, I set scrypt's N too high and got a ValueError: [digital envelope routines] memory limit exceeded. This showed firsthand that cost parameters can't just be increased arbitrarily; they're constrained by available system memory.
 ![Error](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/fd496dbd7d7947a769c9099c84dd14db9440b2a0/Screenshot/Another%20Failure.png)
 
 ## Tuned Algorithms
