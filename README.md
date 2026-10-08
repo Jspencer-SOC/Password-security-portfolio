@@ -1,3 +1,5 @@
+# Class Ass. Not finished work -- Still working on it
+
 ## Password Security Portfolio Project
 A hands-on demonstration of password-hashing security. I benchmarked four hashing algorithms by speed to show why slow, purpose-built password hashes resist brute-force attacks far better than general-purpose fast hashes. All work uses made-up test data in an isolated VM
 
