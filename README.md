@@ -1,5 +1,5 @@
 ## Password Security Portfolio Project
-A hands-on demonstration of password-hashing security, benchmarking hash algorithm speed and simulating real cracking attempts, all using invented test data in an isolated VM. Demonstrating a useful understanding of password hashing security through two parts:
+A hands-on demonstration of password-hashing security, benchmarking hash algorithm speed and simulating real cracking attempts, all using made-up test data in an isolated VM. Demonstrating a useful understanding of password hashing security through two parts:
 
 ## Part 1: Hashing Algorithm Benchmark
 Compared MD5, bcrypt, scrypt, and argon2id on speed (hashes/second), showing why slow hashing algorithms resist brute-force attacks far better than general-purpose fast hashes.
@@ -7,8 +7,13 @@ Compared MD5, bcrypt, scrypt, and argon2id on speed (hashes/second), showing why
 ## Part 2: Cracking Demo (Coming Soon)
 I created test accounts two ways: unsalted MD5 vs. salted bcrypt, and attempted to crack both using hashcat/John the Ripper, showing the real-world impact of hashing algorithm choice. All accounts and passwords are invented test data, not real credentials.
 
-## Ground rules followed in this project
+## Rules followed in this project
 I invented all passwords, usernames, and hashes used here for testing purposes. No real accounts, real breach data, or anyone else's credentials were used at any point. All work was done in an isolated Kali Linux VM with no network access to real systems. Nothing in this repository contains a real password, a real API key, or a hash traceable to any real account.
+
+## Tools and environment
+- Kali Linux (VM)
+- Python 3 (virtual environment)
+- Libraries: bcrypt, argon2-cffi
 
 ## Creating a Directory
 Set up the project folder structure using mkdir and navigated into it with cd, preparing a clean workspace for the Part 1 benchmark script.
@@ -18,7 +23,7 @@ Set up the project folder structure using mkdir and navigated into it with cd, p
 Created a Python virtual environment (python3 -m venv venv) and activated it (source venv/bin/activate) to keep project dependencies isolated from the system.
 ![Logging into diff machine](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/49eb906df62e00769260ed1b41827d0bfa6045df/Screenshot/Logging%20into%20a%20sepratee%20VM.png)
 
-## Installing bcrypt
+## Installing dependencies
 Installed the bcrypt and argon2-cffi libraries inside the virtual environment using pip install, which are needed to run the bcrypt and argon2id hashing functions.
 ![Installing](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/49eb906df62e00769260ed1b41827d0bfa6045df/Screenshot/Installing%20bcrypt.png)
 
@@ -62,7 +67,7 @@ While trying to retune scrypt's cost parameter to match OWASP recommendations, I
 ![Error](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/fd496dbd7d7947a769c9099c84dd14db9440b2a0/Screenshot/Another%20Failure.png)
 
 ## Tuned Algorithms
-Corrected the scrypt and argon2id parameters to somewhat realistic (scrypt N=2^14; argon2id time_cost=2, memory_cost=19000, parallelism=1)
+Corrected the scrypt and argon2id parameters to realistic (scrypt N=2^14; argon2id time_cost=2, memory_cost=19000, parallelism=1)
 ![Tuned](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/fd496dbd7d7947a769c9099c84dd14db9440b2a0/Screenshot/Switched%20Algorthms%20to%20more%20real%20base.png)
 
 ## Does Password Complexity Affect Hashing Speed
@@ -79,5 +84,20 @@ To test this, I ran the benchmark on two very different test passwords: a long, 
 - A slow hashing algorithm means each guess takes longer.
 
 A slow algorithm doesn't save a weak password like "123456", and a strong password doesn't save a fast algorithm like MD5. You need both.
+
+## References
+
+Defuse Security. (2018). Secure Salted Password Hashing - How to do it Properly. Crackstation.Net. https://crackstation.net/hashing-security.htm
+
+OWASP. (2021). Password Storage - OWASP Cheat Sheet Series. Cheatsheetseries.Owasp.Org. https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+
+Python. (2024). hashlib — Secure hashes and message digests — Python 3.8.4rc1 documentation. Docs.Python.Org. https://docs.python.org/3/library/hashlib.html
+
+developers, T. P. C. A. (2025, February 28). bcrypt: Modern password hashing for your software and your servers. PyPI. https://pypi.org/project/bcrypt/
+
+Guilliano Molaire. (2024, December 2). Bcrypt: Why It’s a Preferred Password Hashing Algorithm. Skycloak - Managed Keycloak | IAM as a Service. https://skycloak.io/blog/bcrypt-basics-why-its-a-preferred-password-hashing-algorithm/
+
+
+argon2-cffi 21.3.0 documentation. (n.d.). Argon2-Cffi.Readthedocs.Io. Retrieved October 7, 2026, from https://argon2-cffi.readthedocs.io/en/stable/
 
 
