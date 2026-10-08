@@ -1,10 +1,10 @@
 ## Password Security Portfolio Project
-A hands-on demonstration of password-hashing security, benchmarking hash algorithm speed and simulating real cracking attempts, all using made-up test data in an isolated VM. Demonstrating a useful understanding of password hashing security through two parts:
+A hands-on demonstration of password-hashing security. I benchmarked four hashing algorithms by speed to show why slow, purpose-built password hashes resist brute-force attacks far better than general-purpose fast hashes. All work uses made-up test data in an isolated VM
 
 ## Part 1: Hashing Algorithm Benchmark
 Compared MD5, bcrypt, scrypt, and argon2id on speed (hashes/second), showing why slow hashing algorithms resist brute-force attacks far better than general-purpose fast hashes.
 
-## Part 2: Cracking Demo (Coming Soon)
+## Part 2: Cracking Demo (Future Project)
 I created test accounts two ways: unsalted MD5 vs. salted bcrypt, and attempted to crack both using hashcat/John the Ripper, showing the real-world impact of hashing algorithm choice. All accounts and passwords are invented test data, not real credentials.
 
 ## Rules followed in this project
@@ -16,7 +16,7 @@ I invented all passwords, usernames, and hashes used here for testing purposes. 
 - Libraries: bcrypt, argon2-cffi
 
 ## Creating a Directory
-Set up the project folder structure using mkdir and navigated into it with cd, preparing a clean workspace for the Part 1 benchmark script.
+Set up the project folder structure using mkdir and navigated into it with cd, preparing a clean workspace for the Part 1 benchmark script
 ![Screenshot/Creating a Dirctory.png](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/49eb906df62e00769260ed1b41827d0bfa6045df/Screenshot/Creating%20a%20Dirctory.png)
 
 ## Logging into a separate VM
@@ -38,25 +38,36 @@ The remainder of benchmark.py is the ALGORITHMS dictionary mapping algorithm nam
 Hit a NameError: name 'NUM_TRIALS' is not defined on the first run. Traced it back to a typo I had written Num_trails instead of NUM_TRIALS in the variable definition.
 ![Error](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/49eb906df62e00769260ed1b41827d0bfa6045df/Screenshot/Error%20Ran%20into.png)
 
+### Results
+
 ## First Test
 After fixing the typo, ran the script successfully for the first time using the test password "Ilovemycats." Produced a full results table comparing MD5, bcrypt, scrypt, and argon2id
 ![first test](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/fd496dbd7d7947a769c9099c84dd14db9440b2a0/Screenshot/First%20Test.png)
 
+| Algorithm | Avg time/hash | Hashes/sec |
+|-----------|---------------|------------|
+| MD5       | ~0.010 ms   | ~104,000   |
+| bcrypt    | ~0.413 ms   | ~2-4       |
+| scrypt    | ~0.054 ms   | ~18.4      |
+| argon2id  | ~0.111 ms   | ~8.9       |
+
+
 "Avg time/hash" → bigger number = slower (takes longer per hash)
 "Hashes/sec" → bigger number = faster (does more per second)
 
- ## Why MD5 being fastest is bad
 
-Imagine a hacker has stolen a list of passwords and wants to guess their way back to the real passwords. Those passwords were scrambled with MD5; the hacker can test about 104,000 guesses every second. They could try millions of common passwords within minutes. Even a decent password isn't very safe, because the hacker can just brute-force their way through guesses so quickly. 
+
+## Why MD5 being fastest is bad
+Imagine an attacker has stolen a list of password hashes and wants to guess the original passwords. If they were hashed with MD5, my benchmark shows about 104,000 guesses per second. That figure comes from my single-threaded Python script on a VM. Real attackers use GPUs that can test billions of MD5 hashes per second, so the real-world gap is even larger. At my measured speed, they could try millions of common passwords in minutes, and even a decent password isn't good.
 
 ## Why bcrypt being slow is good
 
-If those same passwords were scrambled with bcrypt instead, the hacker can only test about 2-3 guesses per second. Here's the difference.
+If the same passwords were hashed with bcrypt, the attacker can test only about 2-3 guesses per second (on my VM). The difference:
 - Guessing 1 million passwords with MD5: takes the hacker under 10 seconds
 - Guessing that same 1 million passwords with bcrypt: takes the hacker almost 5 days
 
 ## Why scrypt and argon2id were "in the middle
-scrypt and argon2id aren't weaker algorithms. It's because I hadn't "turned up the difficulty" to the standard that they're supposed to be.
+scrypt and argon2id are not weaker algorithms. My first run used cost settings below recommended levels, so bcrypt  was faster than it should be. I corrected this in the "Tuned Algorithms" section.
 
 ## Sample Pass Testing
 Ran the benchmark again with a different test password ("Samsmith") to confirm the results were consistent and not a one-off fluke.
@@ -67,7 +78,7 @@ While trying to retune scrypt's cost parameter to match OWASP recommendations, I
 ![Error](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/fd496dbd7d7947a769c9099c84dd14db9440b2a0/Screenshot/Another%20Failure.png)
 
 ## Tuned Algorithms
-Corrected the scrypt and argon2id parameters to realistic (scrypt N=2^14; argon2id time_cost=2, memory_cost=19000, parallelism=1)
+Corrected the scrypt and argon2id parameters to realistic (scrypt N=2^14; argon2id time_cost=2, memory_cost=19000, parallelism=1).The argon2id settings match OWASP's minimum recommended configuration. The scrypt setting is at the low end of OWASP's suggested range, chosen to fit my VM's memory
 ![Tuned](https://github.com/Jspencer-SOC/Password-security-portfolio/blob/fd496dbd7d7947a769c9099c84dd14db9440b2a0/Screenshot/Switched%20Algorthms%20to%20more%20real%20base.png)
 
 ## Does Password Complexity Affect Hashing Speed
@@ -84,6 +95,16 @@ To test this, I ran the benchmark on two very different test passwords: a long, 
 - A slow hashing algorithm means each guess takes longer.
 
 A slow algorithm doesn't save a weak password like "123456", and a strong password doesn't save a fast algorithm like MD5. You need both.
+
+## Conculsion
+Fast hashes like MD5 are a poor choice for storing passwords because they let an attacker test guesses extremely quickly. Slow, tunable algorithms (bcrypt, scrypt, argon2id) make each guess expensive, but their cost settings must be tuned to the hardware. Good password security combines a strong password with a slow hashing algorithm.
+
+## Limitations
+- Results come from one Kali VM, so absolute speeds will differ on other hardware.
+- The benchmark is single-threaded Python with no GPU. Real attackers are much faster.
+- Each algorithm was timed with a limited number of trials, so small differences are not statistically precise.
+
+
 
 ## References
 
