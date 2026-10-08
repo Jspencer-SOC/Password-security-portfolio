@@ -5,10 +5,10 @@ A hands-on demonstration of password-hashing security. I benchmarked four hashin
 Compared MD5, bcrypt, scrypt, and argon2id on speed (hashes/second), showing why slow hashing algorithms resist brute-force attacks far better than general-purpose fast hashes.
 
 ## Part 2: Cracking Demo (Future Project)
-I created test accounts two ways: unsalted MD5 vs. salted bcrypt, and attempted to crack both using hashcat/John the Ripper, showing the real-world impact of hashing algorithm choice. All accounts and passwords are invented test data, not real credentials.
+Creating test accounts two ways: unsalted MD5 vs. salted bcrypt, and attempting to crack both using hashcat/John the Ripper, showing the real-world impact of hashing algorithm choice. All accounts and passwords are invented test data, not real credentials.
 
 ## Rules followed in this project
-I invented all passwords, usernames, and hashes used here for testing purposes. No real accounts, real breach data, or anyone else's credentials were used at any point. All work was done in an isolated Kali Linux VM with no network access to real systems. Nothing in this repository contains a real password, a real API key, or a hash traceable to any real account.
+I invented all passwords, usernames, and hashes used here for testing purposes. No real accounts, real breach data, or anyone else's credentials were used at any point. All work was done in an isolated Kali Linux VM with no access to real accounts or systems. Nothing in this repository contains a real password, a real API key, or a hash traceable to any real account.
 
 ## Tools and environment
 - Kali Linux (VM)
@@ -58,7 +58,7 @@ After fixing the typo, ran the script successfully for the first time using the 
 
 
 ## Why MD5 being fastest is bad
-Imagine an attacker has stolen a list of password hashes and wants to guess the original passwords. If they were hashed with MD5, my benchmark shows about 104,000 guesses per second. That figure comes from my single-threaded Python script on a VM. Real attackers use GPUs that can test billions of MD5 hashes per second, so the real-world gap is even larger. At my measured speed, they could try millions of common passwords in minutes, and even a decent password isn't good.
+Imagine an attacker has stolen a list of password hashes and wants to guess the original passwords. If they were hashed with MD5, my benchmark shows about 104,000 guesses per second for my first test password. That figure comes from my single-threaded Python script on a VM. Real attackers use GPUs that can test billions of MD5 hashes per second, so the real-world gap is even larger. At my measured speed, they could try millions of common passwords in minutes, and even a decent password isn't good.
 
 ## Why bcrypt being slow is good
 
